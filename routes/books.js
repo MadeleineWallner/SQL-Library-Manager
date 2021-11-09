@@ -4,7 +4,8 @@ const Book = require('../models').Book;
 
 
 router.get('/', async (req, res, next) => {
-    res.render('index')
+    let allBooks = await Book.findAll()
+    res.render('index', allBooks)
   });
 
 
