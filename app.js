@@ -42,7 +42,7 @@ app.use('/static', express.static('public'));
 
 // 404 handler
 app.use((req, res, next) =>{
-  const err = new Error('err');
+  const err = new Error();
   err.status = 404;
   err.message = "Page not found"
   next(err);

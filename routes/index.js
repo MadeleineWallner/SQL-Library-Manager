@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const Book = require('../models').Book;
 
 // redirect to /books
 router.get('/', async (req, res, next) => {
@@ -9,4 +8,3 @@ router.get('/', async (req, res, next) => {
 });
 
 module.exports = router;
-
