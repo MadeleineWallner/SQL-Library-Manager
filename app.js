@@ -30,7 +30,6 @@ app.use('/static', express.static('public'));
 
 (async () => {
   await models.sequelize.sync();
-  console.log(models.Book)
   //testing if a connection has been established or not
     try {
      await models.sequelize.authenticate();
