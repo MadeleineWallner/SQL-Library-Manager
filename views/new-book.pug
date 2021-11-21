@@ -2,6 +2,8 @@ extends layout.pug
 
 block content 
     h1 New Book
+    if error 
+        h1 Error
     form(action='/books/new', method='POST')
         p 
             label(for='title') Title

@@ -31,9 +31,33 @@ try {
 }
 });
 
-router.get('/:id', (req, res, next) => {
-  //Show book detail form
+// View the form to update a book
+router.get('/:id', async (req,res, next) => {
+  const bookById = await Book.findByPk(req.params.id)
+  const allBooks = await Book.findAll();
+  if(bookById > allBooks.length -1){
+    next();
+  } else {
+    res.render('update-book', {bookById})
+  }
 });
+
+//Update a book
+router.post('/:id', async (req, res, next) =>{
+  let book;
+  book = await Book.findByPk(req.params.id)
+try {
+    await book.update(req.body)
+    res.redirect('/')
+  } catch(error){
+      if(error.name === "SequelizeValidationError"){
+        const errors = error.errors.map(err => err.message)
+        console.error("Validation errors: ", errors)
+      } else {
+        throw error
+      }
+    }
+  });
 
 router.post(':id/delete', (req, res, next) => {
   //deletes a book.
