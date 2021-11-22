@@ -1,9 +1,13 @@
 extends layout.pug
 
-block content 
+block content
     h1 New Book
-    if error 
-        h1 Error
+
+    if(errors)
+        ul.error
+            each error in errors 
+                li.error=`${error.path[0].toUpperCase() + error.path.substring(1)} is required`
+
     form(action='/books/new', method='POST')
         p 
             label(for='title') Title

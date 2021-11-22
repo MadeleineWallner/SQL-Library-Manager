@@ -2,19 +2,25 @@ extends layout.pug
 
 block content 
     h1 Update Book
-    form(action=`/books/${bookById.id}`, method='POST')
+
+    if(errors)
+        ul.error
+            each error in errors 
+                li.error=`${error.path[0].toUpperCase() + error.path.substring(1)} is required`
+                
+    form(action=`/books/${book.id}`, method='POST')
         p 
             label(for='title') Title
-            input#title(name='title' type='text' value=bookById.title)
+            input#title(name='title' type='text' value=book.title)
         p 
             label(for='author') Author 
-            input#author(name='author' type='text' value=bookById.author)
+            input#author(name='author' type='text' value=book.author)
         p 
             label(for='genre') Genre 
-            input#genre(name='genre' type='text' value=bookById.genre)
+            input#genre(name='genre' type='text' value=book.genre)
         p 
             label(for='year') Year 
-            input#year(name='year' type='text' value=bookById.year)
+            input#year(name='year' type='text' value=book.year)
         p
             input(type='submit' value='Update Book')
         p 

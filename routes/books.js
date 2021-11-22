@@ -23,8 +23,8 @@ try {
 //If error - check if its a SequelizeValidationError or not
 } catch(error){
   if(error.name === "SequelizeValidationError"){
-    const errors = error.errors.map(err => err.message)
-    console.error("Validation errors: ", errors)
+    book = Book.build(req.body);
+    res.render('new-book',{ book, errors: error.errors});
   } else {
     throw error
   }
@@ -33,12 +33,12 @@ try {
 
 // View the form to update a book
 router.get('/:id', async (req,res, next) => {
-  const bookById = await Book.findByPk(req.params.id)
+  const book = await Book.findByPk(req.params.id)
   const allBooks = await Book.findAll();
-  if(bookById > allBooks.length -1){
+  if(book > allBooks.length -1){
     next();
   } else {
-    res.render('update-book', {bookById})
+    res.render('update-book', {book})
   }
 });
 
@@ -51,8 +51,8 @@ try {
     res.redirect('/')
   } catch(error){
       if(error.name === "SequelizeValidationError"){
-        const errors = error.errors.map(err => err.message)
-        console.error("Validation errors: ", errors)
+        await Book.build(req.body);
+        res.render('update-book',{ book, errors: error.errors});
       } else {
         throw error
       }
@@ -63,6 +63,7 @@ router.post(':id/delete', (req, res, next) => {
   //deletes a book.
   //CANT BE UNDONE. Create a test book to test deleting
 })
+
 
 
 module.exports = router;
