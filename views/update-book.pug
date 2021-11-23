@@ -25,3 +25,6 @@ block content
             input(type='submit' value='Update Book')
         p 
             a.button(href='/') Cancel
+
+    form(action=`/books/${book.id}/delete`, method='POST')
+            input(type='submit' value='Delete Book')

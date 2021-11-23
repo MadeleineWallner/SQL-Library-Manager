@@ -59,10 +59,14 @@ try {
     }
   });
 
-router.post(':id/delete', (req, res, next) => {
-  //deletes a book.
-  //CANT BE UNDONE. Create a test book to test deleting
-})
+router.post('/:id/delete', async (req, res, next) => {
+  const book = await Book.findByPk(req.params.id);
+  try {
+    await book.destroy();
+    res.redirect("/books");
+  } catch {
+    throw error()
+}})
 
 
 
