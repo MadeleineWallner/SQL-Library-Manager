@@ -54,7 +54,7 @@ app.use((err, req, res, next) => {
   }
   //If the error status is 404 - render the page-not-found template. Else - render the 'error' template
   if(err.status === 404){
-    res.render('page-not-found');
+    res.render('page-not-found', {err});
   } else {
     err.message = err.message || "Something went Wrong"
     err.status = err.status || 500

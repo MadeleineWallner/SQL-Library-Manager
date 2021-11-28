@@ -2,11 +2,25 @@ var express = require('express');
 var router = express.Router();
 const Book = require('../models').Book;
 
+router.get('/', async(req, res, next) => {
+  res.redirect('/books/page=1')
+})
+
 // View all books
-router.get('/', async (req, res, next) => {
-    const allBooks = await Book.findAll()
-    res.render('index', {allBooks})
+router.get('/page=:currentPage', async (req, res, next) => {
+    const currentPage = req.params.currentPage
+    const limit = 10
+    const allBooks = await Book.findAll();
+    const books = await Book.findAll({
+      limit: 10,
+      offset: (limit * currentPage) - limit
+    })
+    const numberOfPages  =  await Math.ceil(allBooks.length/10);
+    const page = 1
+    
+    res.render('index', {books, numberOfPages, page} )
   });
+
 
 // View the form to add a new book
 router.get('/new', async (req,res, next) => {
@@ -59,6 +73,7 @@ try {
     }
   });
 
+  //delete a book
 router.post('/:id/delete', async (req, res, next) => {
   const book = await Book.findByPk(req.params.id);
   try {
@@ -71,3 +86,4 @@ router.post('/:id/delete', async (req, res, next) => {
 
 
 module.exports = router;
+

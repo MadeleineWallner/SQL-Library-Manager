@@ -95,3 +95,9 @@ input[type=text] {
 .error {
   color: rgb(236, 15, 15);
 }
+
+.divider {
+  width: 5px;
+  height: auto;
+  display: inline-block
+}

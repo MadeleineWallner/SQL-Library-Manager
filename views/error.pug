@@ -1,6 +1,6 @@
 extends layout.pug
 
 block content
-    h2= err.status
-    p= err.message
+    h1= `${err.status} Server Error`
+    p Sorry! There was an unexpected error on the server.
     a(href='/') Home
