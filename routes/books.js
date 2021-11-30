@@ -21,14 +21,17 @@ router.get('/page=:currentPage', async (req, res, next) => {
     res.render('index', {books, numberOfPages, page, query} )
   });
 
-
+// Search. 
   router.post('/search', async (req, res, next) => {
-    const query = req.body.search
+    const query = req.body.search.toLowerCase()
     const matches = [];
     const allBooks = await Book.findAll();
     for(let i = 0; i < allBooks.length; i++){
-      if(
-        allBooks[i].title.includes(query) || allBooks[i].author.includes(query)
+      if(  allBooks[i].title.toLowerCase().includes(query) 
+        || allBooks[i].author.toLowerCase().includes(query) 
+        || allBooks[i].genre.toLowerCase().includes(query)
+        || allBooks[i].year.toString().includes(query)
+        
         ){
         matches.push(allBooks[i])
       }
