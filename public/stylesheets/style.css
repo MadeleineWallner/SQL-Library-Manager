@@ -101,3 +101,14 @@ input[type=text] {
   height: auto;
   display: inline-block
 }
+
+#searchBtn {
+  margin-left: 0px;
+  padding: 12px 14px 12px;
+
+}
+
+#searchField {
+  margin-left: 0px;
+
+}

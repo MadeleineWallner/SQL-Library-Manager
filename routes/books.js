@@ -6,7 +6,7 @@ router.get('/', async(req, res, next) => {
   res.redirect('/books/page=1')
 })
 
-// View all books
+// View all books/10 per page
 router.get('/page=:currentPage', async (req, res, next) => {
     const currentPage = req.params.currentPage
     const limit = 10
@@ -17,9 +17,27 @@ router.get('/page=:currentPage', async (req, res, next) => {
     })
     const numberOfPages  =  await Math.ceil(allBooks.length/10);
     const page = 1
-    
-    res.render('index', {books, numberOfPages, page} )
+    const query = req.body.search
+    res.render('index', {books, numberOfPages, page, query} )
   });
+
+
+  router.post('/search', async (req, res, next) => {
+    const query = req.body.search
+    const matches = [];
+    const allBooks = await Book.findAll();
+    for(let i = 0; i < allBooks.length; i++){
+      if(
+        allBooks[i].title.includes(query) || allBooks[i].author.includes(query)
+        ){
+        matches.push(allBooks[i])
+      }
+    }
+
+    
+    res.render('index', books = matches, )
+  })
+
 
 
 // View the form to add a new book
