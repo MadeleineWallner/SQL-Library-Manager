@@ -17,28 +17,37 @@ router.get('/page=:currentPage', async (req, res, next) => {
     })
     const numberOfPages  =  await Math.ceil(allBooks.length/10);
     const page = 1
-    const query = req.body.search
-    res.render('index', {books, numberOfPages, page, query} )
+ 
+    if(currentPage > numberOfPages){
+      next()
+    } else {
+      res.render('index', {books, numberOfPages, page} )
+    }
+
   });
 
 // Search. 
   router.post('/search', async (req, res, next) => {
     const query = req.body.search.toLowerCase()
     const matches = [];
-    const allBooks = await Book.findAll();
-    for(let i = 0; i < allBooks.length; i++){
-      if(  allBooks[i].title.toLowerCase().includes(query) 
-        || allBooks[i].author.toLowerCase().includes(query) 
-        || allBooks[i].genre.toLowerCase().includes(query)
-        || allBooks[i].year.toString().includes(query)
-        
-        ){
-        matches.push(allBooks[i])
-      }
-    }
+    try{
+      const allBooks = await Book.findAll();
+      for(let i = 0; i < allBooks.length; i++){
+        if(  allBooks[i].title.toLowerCase().includes(query) 
+          || allBooks[i].author.toLowerCase().includes(query) 
+          || allBooks[i].genre.toLowerCase().includes(query)
+          || allBooks[i].year.toString().includes(query)
+          ){
+          matches.push(allBooks[i])
+        }
+      }    
+      res.render('index', books = matches)
 
+    } catch(error){
+      throw error
+    }
     
-    res.render('index', books = matches, )
+   
   })
 
 
@@ -68,13 +77,18 @@ try {
 
 // View the form to update a book
 router.get('/:id', async (req,res, next) => {
-  const book = await Book.findByPk(req.params.id)
-  const allBooks = await Book.findAll();
-  if(book > allBooks.length -1){
-    next();
-  } else {
-    res.render('update-book', {book})
+  try{
+    const book = await Book.findByPk(req.params.id)
+    const allBooks = await Book.findAll();
+    if(book > allBooks.length -1){
+      next();
+    } else {
+      res.render('update-book', {book})
+    }
+  } catch(error){
+    throw error
   }
+  
 });
 
 //Update a book

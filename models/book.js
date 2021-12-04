@@ -11,21 +11,14 @@ module.exports = (sequelize) => {
       allowNull: false,
       validate: {
         //Messages for if the title field is empty 
-        notNull: {
-          msg: '"Title" can not be empty'
-        },
-        notEmpty: '"Title" can not be empty'
+        notEmpty: '"Title" is required'
       }
     }, 
     author:{
       type: Sequelize.STRING,
       allowNull: false,
-      validate: {
-        notNull: {
-          //Messages for if the author field is empty 
-          msg: '"Author" can not be empty'
-        },
-        notEmpty: '"Author" can not be empty'
+      validate: { 
+        notEmpty: '"Author" is required'
       }
     },
     genre: Sequelize.STRING,
